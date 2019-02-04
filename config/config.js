@@ -21,7 +21,10 @@ const envVarsSchema = Joi.object({
   MONGO_HOST: Joi.string().required()
     .description('Mongo DB host url'),
   MONGO_PORT: Joi.number()
-    .default(27017)
+    .default(27017),
+  OST_API_KEY: Joi.string().required().description('OST Kit Api Key.'),
+  OST_API_SECRET: Joi.string().required().description('OST Kit Api Secret'),
+  OST_API_ENDPOINT: Joi.string().required().description('OST Kit Api Endpoint')
 }).unknown()
   .required();
 
@@ -38,6 +41,11 @@ const config = {
   mongo: {
     host: envVars.MONGO_HOST,
     port: envVars.MONGO_PORT
+  },
+  ostSdk: {
+    apiKey: envVars.OST_API_KEY,
+    apiSecret: envVars.OST_API_SECRET,
+    endPoint: envVars.OST_API_ENDPOINT
   }
 };
 

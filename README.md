@@ -63,6 +63,15 @@ Set environment (vars):
 cp .env.example .env
 ```
 
+Edit the .env to add Ost Sdk specific environment variables
+```sh
+vi .env
+#add the following env vars:
+# OST_API_KEY
+# OST_API_SECRET
+# OST_API_ENDPOINT
+```
+
 Start server:
 ```sh
 # Start server
