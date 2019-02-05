@@ -55,10 +55,10 @@
     "express-winston": "2.5.0",
     "helmet": "3.12.0",
     "http-status": "1.0.1",
-    "joi": "10.6.0",
-    "jsonwebtoken": "7.1.9",
+    "joi": "13.7.0",
+    "jsonwebtoken": "8.3.0",
     "method-override": "^2.3.10",
-    "mongoose": "4.7.4",
+    "mongoose": "5.0.0",
     "morgan": "1.9.0",
     "winston": "2.4.1"
   },
@@ -78,7 +78,6 @@
     "prettier": "1.16.4",
     "pretty-quick": "1.10.0",
     "supertest": "3.0.0",
-    "supertest-as-promised": "4.0.2",
     "validate-commit-msg": "^2.14.0"
   },
   "license": "MIT",
