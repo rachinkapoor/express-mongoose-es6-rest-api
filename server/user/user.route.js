@@ -1,18 +1,21 @@
-const express = require('express');
-const validate = require('express-validation');
-const paramValidation = require('../../config/param-validation');
-const userCtrl = require('./user.controller');
+const express = require("express");
+const validate = require("express-validation");
+const paramValidation = require("../../config/param-validation");
+const userCtrl = require("./user.controller");
+const ostUserRoutes = require("../ostUser/ostUser.route");
 
 const router = express.Router(); // eslint-disable-line new-cap
 
-router.route('/')
+router
+  .route("/")
   /** GET /api/users - Get list of users */
   .get(userCtrl.list)
 
   /** POST /api/users - Create new user */
   .post(validate(paramValidation.createUser), userCtrl.create);
 
-router.route('/:userId')
+router
+  .route("/:userId")
   /** GET /api/users/:userId - Get user */
   .get(userCtrl.get)
 
@@ -22,7 +25,16 @@ router.route('/:userId')
   /** DELETE /api/users/:userId - Delete user */
   .delete(userCtrl.remove);
 
+// mount ostUser routes at /users/:userId/ost-users/
+router.use(
+  "/:userId/ost-users",
+  (req, res, next) => {
+    next();
+  },
+  ostUserRoutes
+);
+
 /** Load user when API with userId route parameter is hit */
-router.param('userId', userCtrl.load);
+router.param("userId", userCtrl.load);
 
 module.exports = router;

@@ -1,11 +1,11 @@
-const User = require('./user.model');
+const User = require("./user.model");
 
 /**
  * Load user and append to req.
  */
 function load(req, res, next, id) {
   User.get(id)
-    .then((user) => {
+    .then(user => {
       req.user = user; // eslint-disable-line no-param-reassign
       return next();
     })
@@ -24,31 +24,33 @@ function get(req, res) {
  * Create new user
  * @property {string} req.body.username - The username of user.
  * @property {string} req.body.mobileNumber - The mobileNumber of user.
+ * @property {string} req.body.description - User description.
  * @returns {User}
  */
 function create(req, res, next) {
   const user = new User({
     username: req.body.username,
-    mobileNumber: req.body.mobileNumber
+    mobile_number: req.body.mobile_number,
+    description: req.body.description || ""
   });
 
-  user.save()
+  user
+    .save()
     .then(savedUser => res.json(savedUser))
     .catch(e => next(e));
 }
 
 /**
  * Update existing user
- * @property {string} req.body.username - The username of user.
- * @property {string} req.body.mobileNumber - The mobileNumber of user.
+ * @property {string} req.body.description - User description.
  * @returns {User}
  */
 function update(req, res, next) {
   const user = req.user;
-  user.username = req.body.username;
-  user.mobileNumber = req.body.mobileNumber;
+  user.description = req.body.description;
 
-  user.save()
+  user
+    .save()
     .then(savedUser => res.json(savedUser))
     .catch(e => next(e));
 }
@@ -72,7 +74,8 @@ function list(req, res, next) {
  */
 function remove(req, res, next) {
   const user = req.user;
-  user.remove()
+  user
+    .remove()
     .then(deletedUser => res.json(deletedUser))
     .catch(e => next(e));
 }

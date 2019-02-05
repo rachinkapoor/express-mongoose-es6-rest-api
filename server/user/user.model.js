@@ -1,7 +1,7 @@
-const Promise = require('bluebird');
-const mongoose = require('mongoose');
-const httpStatus = require('http-status');
-const APIError = require('../helpers/APIError');
+const Promise = require("bluebird");
+const mongoose = require("mongoose");
+const httpStatus = require("http-status");
+const APIError = require("../helpers/APIError");
 
 /**
  * User Schema
@@ -11,12 +11,28 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  mobileNumber: {
+  mobile_number: {
     type: String,
     required: true,
-    match: [/^[1-9][0-9]{9}$/, 'The value of path {PATH} ({VALUE}) is not a valid mobile number.']
+    unique: true,
+    match: [
+      /^[1-9][0-9]{9}$/,
+      "The value of path {PATH} ({VALUE}) is not a valid mobile number."
+    ]
   },
-  createdAt: {
+  description: {
+    type: String
+  },
+  token_holder_address: {
+    type: String
+  },
+  ost_user_id: {
+    type: String
+  },
+  ost_user_internal_id: {
+    type: String
+  },
+  created_at: {
     type: Date,
     default: Date.now
   }
@@ -32,8 +48,7 @@ const UserSchema = new mongoose.Schema({
 /**
  * Methods
  */
-UserSchema.method({
-});
+UserSchema.method({});
 
 /**
  * Statics
@@ -47,11 +62,11 @@ UserSchema.statics = {
   get(id) {
     return this.findById(id)
       .exec()
-      .then((user) => {
+      .then(user => {
         if (user) {
           return user;
         }
-        const err = new APIError('No such user exists!', httpStatus.NOT_FOUND);
+        const err = new APIError("No such user exists!", httpStatus.NOT_FOUND);
         return Promise.reject(err);
       });
   },
@@ -74,4 +89,4 @@ UserSchema.statics = {
 /**
  * @typedef User
  */
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model("User", UserSchema);
