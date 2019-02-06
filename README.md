@@ -44,8 +44,8 @@ Heavily inspired from [Egghead.io - How to Write an Open Source JavaScript Libra
 
 Clone the repo:
 ```sh
-git clone git@github.com:kunalkapadia/express-mongoose-es6-rest-api.git
-cd express-mongoose-es6-rest-api
+git clone https://github.com/rachinkapoor/ost-mappy-server-rest-api-boilerplate.git
+cd ost-mappy-server-rest-api-boilerplate
 ```
 
 Install yarn:
@@ -63,7 +63,7 @@ Set environment (vars):
 cp .env.example .env
 ```
 
-Edit the .env to add Ost Sdk specific environment variables
+Edit the .env to add Ost Sdk specific environment variables:
 ```sh
 vi .env
 #add the following env vars:
