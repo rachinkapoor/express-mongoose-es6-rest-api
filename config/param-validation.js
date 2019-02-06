@@ -42,7 +42,9 @@ module.exports = {
       device_name: Joi.string()
         .min(1)
         .required(),
-      device_uuid: Joi.string().min(1)
+      device_uuid: Joi.string()
+        .min(1)
+        .required()
     }
   },
 
