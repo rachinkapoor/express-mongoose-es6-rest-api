@@ -45,7 +45,7 @@ function create(req, res, next) {
   };
 
   //Check if already exists
-  UserDevice.getByAddress(deivceData.address)
+  UserDevice.getByAddress(appUser._id, deivceData.address)
     .then(savedUserDevice => res.json(savedUserDevice))
     .catch(() => {
       //Temp Code. To be removed - bug in API
@@ -126,7 +126,7 @@ function update(req, res, next) {
 function list(req, res, next) {
   const user = req.user;
   const { appUserId = user._id, limit = 50, skip = 0 } = req.query;
-  UserDevice.list({ limit, skip })
+  UserDevice.list({ appUserId, limit, skip })
     .then(userDevices => res.json(userDevices))
     .catch(e => next(e));
 }
