@@ -28,6 +28,24 @@ module.exports = {
     }
   },
 
+  // POST /api/users/:userId/devices
+  createUserDevice: {
+    body: {
+      address: Joi.string()
+        .min(42)
+        .max(42)
+        .required(),
+      api_signer_address: Joi.string()
+        .min(42)
+        .max(42)
+        .required(),
+      device_name: Joi.string()
+        .min(1)
+        .required(),
+      device_uuid: Joi.string().min(1)
+    }
+  },
+
   // POST /api/auth/login
   login: {
     body: {

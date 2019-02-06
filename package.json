@@ -63,6 +63,7 @@
     "winston": "2.4.1"
   },
   "devDependencies": {
+    "ethereumjs-wallet": "0.6.3",
     "chai": "4.1.2",
     "commitizen": "^2.9.6",
     "coveralls": "^3.0.0",

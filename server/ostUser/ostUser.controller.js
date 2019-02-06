@@ -27,7 +27,7 @@ function create(req, res, next) {
         .create()
         .then(apiResponse => {
           if (apiResponse.success && apiResponse.data.user) {
-            const ostUserData = Object.assign({}, apiResponse.data.user);
+            let ostUserData = Object.assign({}, apiResponse.data.user);
             //Set app_user_id & user_pin_salt
             ostUserData.app_user_id = user._id;
             ostUserData.user_pin_salt = bip39.generateMnemonic();
@@ -36,10 +36,26 @@ function create(req, res, next) {
             ostUserData.user_id = ostUserData.user_id || ostUserData.userId;
 
             //Create new OstUser.
-            const ostUser = new OstUser(ostUserData);
-            return ostUser.save().then(savedUser => res.json(savedUser));
+            let ostUser = new OstUser(ostUserData);
+            let savedOstUser;
+            return ostUser
+              .save()
+              .then(ostUserData => {
+                savedOstUser = ostUserData;
+                user.ost_user_id = savedOstUser.user_id;
+                return user.save();
+              })
+              .then(savedUser => {
+                res.json(savedOstUser);
+              });
           } else {
-            throw apiResponse;
+            let err;
+            if (apiResponse.err) {
+              err = new Error(JSON.stringify(apiResponse.err));
+            } else {
+              err = new Error(JSON.stringify(apiResponse));
+            }
+            throw err;
           }
         })
         .catch(e => next(e));
@@ -65,7 +81,13 @@ function update(req, res, next) {
           ostUser.updated_timestamp = apiUser.updated_timestamp;
           return ostUser.save().then(savedUser => res.json(savedUser));
         } else {
-          throw apiResponse;
+          let err;
+          if (apiResponse.err) {
+            err = new Error(JSON.stringify(apiResponse.err));
+          } else {
+            err = new Error(JSON.stringify(apiResponse));
+          }
+          throw err;
         }
       });
     })

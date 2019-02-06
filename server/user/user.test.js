@@ -20,16 +20,16 @@ after(done => {
 
 describe("## User APIs", () => {
   const mobile_number_len = 10;
-  let ts = String(+Date.now());
+  let ts = "98" + String(2 + Date.now());
   let mobile_number = ts.slice(0, mobile_number_len);
 
   let user = {
-    username: "KK123" + String(ts),
+    username: "UserTest" + String(ts),
     mobile_number: mobile_number,
     description: "Hello, I am using apps powered by OST."
   };
 
-  console.log("user", user);
+  console.info("user", user);
 
   describe("# POST /api/users", () => {
     it("should create a new user", done => {
@@ -38,7 +38,7 @@ describe("## User APIs", () => {
         .send(user)
         .expect(httpStatus.OK)
         .then(res => {
-          console.log("res", res);
+          console.info("res", res);
           expect(res.body.username).to.equal(user.username);
           expect(res.body.mobile_number).to.equal(user.mobile_number);
           expect(res.body.description).to.equal(user.description);

@@ -6,38 +6,40 @@ const APIError = require("../helpers/APIError");
 /**
  * User Schema
  */
-const OstUserSchema = new mongoose.Schema({
+const UserDeviceSchema = new mongoose.Schema({
   app_user_id: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  user_pin_salt: {
     type: String,
     required: true
   },
   user_id: {
     type: String,
+    required: true
+  },
+  address: {
+    type: String,
     required: true,
     unique: true
   },
-  token_id: {
+  api_signer_address: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  device_name: {
     type: String,
     required: true
   },
-  token_holder_address: {
-    type: String
-  },
-  device_manager_address: {
+  device_uuid: {
     type: String
   },
   status: {
-    type: String
+    type: String,
+    required: true
   },
   updated_timestamp: {
     type: String
   },
-  created_at: {
+  createdAt: {
     type: Date,
     default: Date.now
   }
@@ -53,12 +55,12 @@ const OstUserSchema = new mongoose.Schema({
 /**
  * Methods
  */
-OstUserSchema.method({});
+UserDeviceSchema.method({});
 
 /**
  * Statics
  */
-OstUserSchema.statics = {
+UserDeviceSchema.statics = {
   /**
    * Get user
    * @param {ObjectId} id - The objectId of user.
@@ -71,41 +73,30 @@ OstUserSchema.statics = {
         if (user) {
           return user;
         }
-        const err = new APIError("No such user exists!", httpStatus.NOT_FOUND);
+        const err = new APIError(
+          "No such user device exists (findById)!",
+          httpStatus.NOT_FOUND
+        );
         return Promise.reject(err);
       });
   },
 
   /**
-   * Get associated Ost User Data by user_id
-   * @param {ObjectId} userId - The user_id of user (as provided by OST).
+   * Get associated Ost User Device by address.
+   * @param {address} deviceAddress - The address of user device wallet.
    * @returns {Promise<User, APIError>}
    */
-  getByUserId(userId) {
-    return this.findOne({ user_id: userId })
+  getByAddress(appUserId, deviceAddress) {
+    return this.findOne({ address: deviceAddress, app_user_id: appUserId })
       .exec()
       .then(userData => {
         if (userData) {
           return userData;
         }
-        const err = new APIError("No such user exists!", httpStatus.NOT_FOUND);
-        return Promise.reject(err);
-      });
-  },
-
-  /**
-   * Get associated Ost User Data by app_user_id
-   * @param {app_user_id} appUserId - The app_user_id of user. (As in user collection).
-   * @returns {Promise<User, APIError>}
-   */
-  getByAppUserId(appUserId) {
-    return this.findOne({ app_user_id: appUserId })
-      .exec()
-      .then(userData => {
-        if (userData) {
-          return userData;
-        }
-        const err = new APIError("No such user exists!", httpStatus.NOT_FOUND);
+        const err = new APIError(
+          "No such user device exists!",
+          httpStatus.NOT_FOUND
+        );
         return Promise.reject(err);
       });
   },
@@ -116,16 +107,26 @@ OstUserSchema.statics = {
    * @param {number} limit - Limit number of users to be returned.
    * @returns {Promise<User[]>}
    */
-  list({ skip = 0, limit = 50 } = {}) {
-    return this.find()
+  list({ appUserId, skip = 0, limit = 50 } = {}) {
+    return this.find({ app_user_id: appUserId })
       .sort({ createdAt: -1 })
       .skip(+skip)
       .limit(+limit)
       .exec();
   }
+
+  // bulkUpdate({appUserId, ostDevices} = {}) {
+  //   let bulkOperation = this.collection.initializeUnorderedBulkOp();
+  //   let len = ostDevices.length;
+  //   while( len-- ) {
+  //     let currOstDevice = ostDevices[len];
+  //     bulkOperation.find({app_user_id: user._id, })
+  //   }
+
+  // }
 };
 
 /**
  * @typedef User
  */
-module.exports = mongoose.model("OstUser", OstUserSchema);
+module.exports = mongoose.model("UserDevice", UserDeviceSchema);

@@ -18,13 +18,13 @@ after(done => {
   done();
 });
 
-describe("## User APIs", () => {
+describe("## OstUser APIs", () => {
   const mobile_number_len = 10;
-  let ts = String(+Date.now());
+  let ts = "9" + String(+Date.now());
   let mobile_number = ts.slice(0, mobile_number_len);
 
   let user = {
-    username: "KK123" + String(ts),
+    username: "OstUserTest" + String(ts),
     mobile_number: mobile_number
   };
   let ostUser;
