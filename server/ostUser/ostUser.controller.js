@@ -1,7 +1,7 @@
 const OstUser = require("./ostUser.model");
 const bip39 = require("bip39");
 const ostSdk = require("../helpers/ostSdk");
-
+const APIError = require("../helpers/APIError");
 /**
  * Get user
  * @returns {OstUser}
@@ -71,25 +71,37 @@ function update(req, res, next) {
   OstUser.getByAppUserId(user._id)
     .then(ostUser => {
       //Make Kit Api Call.
-      ostSdk.services.users.get({ id: ostUser.user_id }).then(apiResponse => {
-        if (apiResponse.success && apiResponse.data.user) {
-          const apiUser = apiResponse.data.user;
-          //Update the ostUser.
-          ostUser.token_holder_address = apiUser.token_holder_address;
-          ostUser.device_manager_address = apiUser.device_manager_address;
-          ostUser.status = apiUser.status;
-          ostUser.updated_timestamp = apiUser.updated_timestamp;
-          return ostUser.save().then(savedUser => res.json(savedUser));
-        } else {
+      ostSdk.services.users
+        .get({ id: ostUser.user_id })
+        .then(apiResponse => {
+          if (apiResponse.success && apiResponse.data.user) {
+            const apiUser = apiResponse.data.user;
+            //Update the ostUser.
+            ostUser.token_holder_address = apiUser.token_holder_address;
+            ostUser.device_manager_address = apiUser.device_manager_address;
+            ostUser.status = apiUser.status;
+            ostUser.updated_timestamp = apiUser.updated_timestamp;
+            return ostUser.save().then(savedUser => res.json(savedUser));
+          } else {
+            let err;
+            if (apiResponse.err) {
+              err = new APIError(JSON.stringify(apiResponse.err), null, true);
+            } else {
+              err = new APIError(JSON.stringify(apiResponse), null, true);
+            }
+            throw err;
+          }
+        })
+        .catch(apiResponse => {
           let err;
           if (apiResponse.err) {
-            err = new Error(JSON.stringify(apiResponse.err));
+            err = new APIError(JSON.stringify(apiResponse.err), null, true);
           } else {
-            err = new Error(JSON.stringify(apiResponse));
+            err = apiResponse;
           }
+
           throw err;
-        }
-      });
+        });
     })
     .catch(e => next(e));
 }
