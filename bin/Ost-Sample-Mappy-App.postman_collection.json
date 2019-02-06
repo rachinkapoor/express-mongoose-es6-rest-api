@@ -1,0 +1,324 @@
+{
+  "info": {
+    "_postman_id": "cf1d9efa-766d-4ba3-9269-00a99b40fc00",
+    "name": "Ost-Sample-Mappy-App",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create User ",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "username",
+              "value": "mappy_app_user_postman_1",
+              "description": "User Name",
+              "type": "text"
+            },
+            {
+              "key": "mobile_number",
+              "value": "6123456001",
+              "description": "Mobile Number - Let it please start with 6",
+              "type": "text"
+            },
+            {
+              "key": "description",
+              "value": "New user from postman",
+              "description": "some bio/description",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:4040/api/users",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4040",
+          "path": ["api", "users"]
+        },
+        "description": "Creates a new user."
+      },
+      "response": []
+    },
+    {
+      "name": "List all users",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "http://localhost:4040/api/users",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4040",
+          "path": ["api", "users"]
+        },
+        "description": "Request to list all users."
+      },
+      "response": []
+    },
+    {
+      "name": "Get User By Id. Make sure replace id in url.",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "http://localhost:4040/api/users/5c5ac8036de6f214a5d73864",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4040",
+          "path": ["api", "users", "5c5ac8036de6f214a5d73864"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create user in Ost-Kit. Make sure to replace user-id in url",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "http://localhost:4040/api/users/5c5ac8036de6f214a5d73864/ost-users",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4040",
+          "path": ["api", "users", "5c5ac8036de6f214a5d73864", "ost-users"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Ost User Data. Make sure to replace id in url",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "http://localhost:4040/api/users/5c5ac8036de6f214a5d73864/ost-users",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4040",
+          "path": ["api", "users", "5c5ac8036de6f214a5d73864", "ost-users"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Sync Ost User with Ost-Kit. Make sure to replace user id in url.",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "tokenHolder",
+              "value": "0x38E1983A9B5beF2f0DC03E87c5D806E775437fB8",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:4040/api/users/5c5ac8036de6f214a5d73864/ost-users",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4040",
+          "path": ["api", "users", "5c5ac8036de6f214a5d73864", "ost-users"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create and register UserDevice In Kit. Make sure to replace id in url.",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/x-www-form-urlencoded",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "address",
+              "value": "0x1ffc91Bce15fAd500f1Bb3f265cE33d4D385ff51",
+              "type": "text"
+            },
+            {
+              "key": "api_signer_address",
+              "value": "0x69F3a70eD7Ab01826a1b4F0b262b3886D4D0685a",
+              "type": "text"
+            },
+            {
+              "key": "device_name",
+              "value": "Postman Client",
+              "type": "text"
+            },
+            {
+              "key": "device_uuid",
+              "value": "0x1ffc91Bce15fAd500f1Bb3f265cE33d4D385ff51",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:4040/api/users/5c5ac8036de6f214a5d73864/devices",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4040",
+          "path": ["api", "users", "5c5ac8036de6f214a5d73864", "devices"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create and register another  UserDevice In Kit. Make sure to replace id in url. Copy",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "type": "text",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "address",
+              "value": "0x69F3a70eD7Ab01826a1b4F0b262b3886D4D0685a",
+              "type": "text"
+            },
+            {
+              "key": "api_signer_address",
+              "value": "0x1ffc91Bce15fAd500f1Bb3f265cE33d4D385ff51",
+              "type": "text"
+            },
+            {
+              "key": "device_name",
+              "value": "Postman Client 2",
+              "type": "text"
+            },
+            {
+              "key": "device_uuid",
+              "value": "0x69F3a70eD7Ab01826a1b4F0b262b3886D4D0685a",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:4040/api/users/5c5ac8036de6f214a5d73864/devices",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4040",
+          "path": ["api", "users", "5c5ac8036de6f214a5d73864", "devices"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "List all user's Devices",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "http://localhost:4040/api/users/5c5ac8036de6f214a5d73864/devices",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4040",
+          "path": ["api", "users", "5c5ac8036de6f214a5d73864", "devices"]
+        },
+        "description": "Request to list all users."
+      },
+      "response": []
+    },
+    {
+      "name": "Future: Sync all Ost UserDevice of current user with Ost-Kit.",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "tokenHolder",
+              "value": "0x38E1983A9B5beF2f0DC03E87c5D806E775437fB8",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:4040/api/users/5c5ac8036de6f214a5d73864/ost-users",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4040",
+          "path": ["api", "users", "5c5ac8036de6f214a5d73864", "ost-users"]
+        },
+        "description": "Note: Make sure to replace user id and device address in url. \nDescription: Syncs UserDevice entity with Ost."
+      },
+      "response": []
+    },
+    {
+      "name": "Delete user. Make sure to repace id in url",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "http://localhost:4040/api/users/5c5ac8026de6f214a5d73861",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4040",
+          "path": ["api", "users", "5c5ac8026de6f214a5d73861"]
+        }
+      },
+      "response": []
+    }
+  ]
+}
