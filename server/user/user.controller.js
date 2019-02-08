@@ -85,7 +85,13 @@ function update(req, res, next) {
 function list(req, res, next) {
   const { limit = 50, skip = 0 } = req.query;
   User.list({ limit, skip })
-    .then(users => res.json(users))
+    .then(users => {
+      return res.json({
+        success: true,
+        result_type: "users",
+        users: users
+      });
+    })
     .catch(e => next(e));
 }
 

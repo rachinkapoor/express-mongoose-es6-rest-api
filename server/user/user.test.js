@@ -135,7 +135,7 @@ describe("## User APIs", () => {
         .get("/api/users")
         .expect(httpStatus.OK)
         .then(res => {
-          expect(res.body).to.be.an("array");
+          expect(res.body.users).to.be.an("array");
           done();
         })
         .catch(done);
@@ -147,7 +147,7 @@ describe("## User APIs", () => {
         .query({ limit: 10, skip: 1 })
         .expect(httpStatus.OK)
         .then(res => {
-          expect(res.body).to.be.an("array");
+          expect(res.body.users).to.be.an("array");
           done();
         })
         .catch(done);
