@@ -50,6 +50,44 @@
       "response": []
     },
     {
+      "name": "Validate User",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "username",
+              "value": "mappy_app_user_postman_1",
+              "description": "User Name",
+              "type": "text"
+            },
+            {
+              "key": "mobile_number",
+              "value": "6123456001",
+              "description": "Mobile Number - Let it please start with 6",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:4040/api/users/validate",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4040",
+          "path": ["api", "users", "validate"]
+        },
+        "description": "Creates a new user."
+      },
+      "response": []
+    },
+    {
       "name": "List all users",
       "request": {
         "method": "GET",
