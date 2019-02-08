@@ -12,6 +12,8 @@
   },
   "scripts": {
     "start": "node index.js",
+    "dev": "DEBUG=ost-mappy-server-rest-api-boilerplate:* node index.js",
+    "server": "node index.js",
     "start:debug": "cross-env DEBUG=express-mongoose-es6-rest-api:* yarn start",
     "lint": "esw *.js server config --color",
     "lint:watch": "yarn lint -- --watch",
