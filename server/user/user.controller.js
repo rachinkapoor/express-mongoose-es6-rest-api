@@ -36,7 +36,15 @@ function create(req, res, next) {
 
   user
     .save()
-    .then(savedUser => res.json(savedUser))
+    .then(savedUser => {
+      if (req.body.create_ost_user) {
+        req.user = savedUser;
+        const ostUserCntrl = require("../ostUser/ostUser.controller");
+        return ostUserCntrl.create(req, res, next);
+      } else {
+        return res.json(savedUser);
+      }
+    })
     .catch(e => next(e));
 }
 

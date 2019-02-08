@@ -20,46 +20,48 @@ function get(req, res, next) {
 function create(req, res, next) {
   const user = req.user;
   OstUser.getByAppUserId(user._id)
-    .then(savedUser => res.json(savedUser))
+    .then(savedOstUser => res.json(savedOstUser))
     .catch(() => {
-      //Make Kit Api Call.
-      ostSdk.services.users
-        .create()
-        .then(apiResponse => {
-          if (apiResponse.success && apiResponse.data.user) {
-            let ostUserData = Object.assign({}, apiResponse.data.user);
-            //Set app_user_id & user_pin_salt
-            ostUserData.app_user_id = user._id;
-            ostUserData.user_pin_salt = bip39.generateMnemonic();
+      return createUserInKit(user);
+    })
+    .then(savedOstUser => res.json(savedOstUser))
+    .catch(e => next(e));
+}
 
-            //Temp Code. To be removed - bug in API
-            ostUserData.user_id = ostUserData.user_id || ostUserData.userId;
+function createUserInKit(user) {
+  //Make Kit Api Call.
+  return ostSdk.services.users.create().then(apiResponse => {
+    if (apiResponse.success && apiResponse.data.user) {
+      let ostUserData = Object.assign({}, apiResponse.data.user);
+      //Set app_user_id & user_pin_salt
+      ostUserData.app_user_id = user._id;
+      ostUserData.user_pin_salt = bip39.generateMnemonic();
 
-            //Create new OstUser.
-            let ostUser = new OstUser(ostUserData);
-            let savedOstUser;
-            return ostUser
-              .save()
-              .then(ostUserData => {
-                savedOstUser = ostUserData;
-                user.ost_user_id = savedOstUser.user_id;
-                return user.save();
-              })
-              .then(savedUser => {
-                res.json(savedOstUser);
-              });
-          } else {
-            let err;
-            if (apiResponse.err) {
-              err = new Error(JSON.stringify(apiResponse.err));
-            } else {
-              err = new Error(JSON.stringify(apiResponse));
-            }
-            throw err;
-          }
-        })
-        .catch(e => next(e));
-    });
+      //Temp Code. To be removed - bug in API
+      ostUserData.user_id = ostUserData.user_id || ostUserData.userId;
+
+      //Create new OstUser.
+      let ostUser = new OstUser(ostUserData);
+      let savedOstUser;
+      return ostUser.save().then(ostUserData => {
+        savedOstUser = ostUserData;
+        user.ost_user_id = savedOstUser.user_id;
+        user.ost_user_internal_id = savedOstUser._id;
+        console.log("\n\n\n", "User", user, "\n\n\n");
+        return user.save().then(savedUser => {
+          return savedOstUser;
+        });
+      });
+    } else {
+      let err;
+      if (apiResponse.err) {
+        err = new Error(JSON.stringify(apiResponse.err));
+      } else {
+        err = new Error(JSON.stringify(apiResponse));
+      }
+      throw err;
+    }
+  });
 }
 
 /**

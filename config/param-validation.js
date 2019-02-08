@@ -10,7 +10,8 @@ module.exports = {
         .required(),
       description: Joi.string()
         .min(3)
-        .max(300)
+        .max(300),
+      create_ost_user: Joi.boolean()
     }
   },
 
