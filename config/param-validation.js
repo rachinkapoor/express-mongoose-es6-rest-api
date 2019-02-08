@@ -28,6 +28,15 @@ module.exports = {
     }
   },
 
+  validateUser: {
+    body: {
+      username: Joi.string().required(),
+      mobile_number: Joi.string()
+        .regex(/^[1-9][0-9]{9}$/)
+        .required()
+    }
+  },
+
   // POST /api/users/:userId/devices
   createUserDevice: {
     body: {

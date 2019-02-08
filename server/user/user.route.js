@@ -14,6 +14,11 @@ router
   .post(validate(paramValidation.createUser), userCtrl.create);
 
 router
+  .route("/validate")
+  /** POST /api/users/login - validate user */
+  .post(validate(paramValidation.validateUser), userCtrl.validateUser);
+
+router
   .route("/:userId")
   /** GET /api/users/:userId - Get user */
   .get(userCtrl.get)

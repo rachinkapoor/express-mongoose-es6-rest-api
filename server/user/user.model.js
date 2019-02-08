@@ -9,7 +9,8 @@ const APIError = require("../helpers/APIError");
 const UserSchema = new mongoose.Schema({
   username: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   mobile_number: {
     type: String,
@@ -67,6 +68,24 @@ UserSchema.statics = {
           return user;
         }
         const err = new APIError("No such user exists!", httpStatus.NOT_FOUND);
+        return Promise.reject(err);
+      });
+  },
+
+  /**
+   * Get user by username & mobile number.
+   * @property {string} username - The username of user.
+   * @property {string} mobile_number - The mobile number of user.
+   * @returns {Promise<User, APIError>}
+   */
+  getByUsernameAndMobileNumber(username, mobile_number) {
+    return this.findOne({ username: username, mobile_number: mobile_number })
+      .exec()
+      .then(userData => {
+        if (userData) {
+          return userData;
+        }
+        const err = new APIError("Invalid User Details", httpStatus.NOT_FOUND);
         return Promise.reject(err);
       });
   },

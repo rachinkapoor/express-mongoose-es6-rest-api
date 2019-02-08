@@ -38,11 +38,47 @@ describe("## User APIs", () => {
         .send(user)
         .expect(httpStatus.OK)
         .then(res => {
-          console.info("res", res);
+          console.info("res", res.body);
           expect(res.body.username).to.equal(user.username);
           expect(res.body.mobile_number).to.equal(user.mobile_number);
           expect(res.body.description).to.equal(user.description);
           user = res.body;
+          done();
+        })
+        .catch(done);
+    });
+  });
+
+  describe("# POST /api/users/validate", () => {
+    it("should validate existing user", done => {
+      request(app)
+        .post("/api/users/validate")
+        .send({
+          username: user.username,
+          mobile_number: user.mobile_number
+        })
+        .expect(httpStatus.OK)
+        .then(res => {
+          console.info("res", res.body);
+          expect(res.body.username).to.equal(user.username);
+          expect(res.body.mobile_number).to.equal(user.mobile_number);
+          expect(res.body.description).to.equal(user.description);
+          user = res.body;
+          done();
+        })
+        .catch(done);
+    });
+
+    it("should report error with message - Not found, when username is invalid", done => {
+      request(app)
+        .post("/api/users/validate")
+        .send({
+          username: "NOT_VALID_" + user.username,
+          mobile_number: user.mobile_number
+        })
+        .expect(httpStatus.NOT_FOUND)
+        .then(res => {
+          expect(res.body.message).to.equal("Not Found");
           done();
         })
         .catch(done);

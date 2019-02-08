@@ -23,7 +23,7 @@ function get(req, res) {
 /**
  * Create new user
  * @property {string} req.body.username - The username of user.
- * @property {string} req.body.mobileNumber - The mobileNumber of user.
+ * @property {string} req.body.mobile_number - The mobileNumber of user.
  * @property {string} req.body.description - User description.
  * @returns {User}
  */
@@ -37,6 +37,19 @@ function create(req, res, next) {
   user
     .save()
     .then(savedUser => res.json(savedUser))
+    .catch(e => next(e));
+}
+
+/**
+ * Validate user infor
+ * @property {string} req.body.username - The username of user.
+ * @property {string} req.body.mobile_number - The mobileNumber of user.
+ * @returns {User}
+ */
+
+function validateUser(req, res, next) {
+  User.getByUsernameAndMobileNumber(req.body.username, req.body.mobile_number)
+    .then(user => res.json(user))
     .catch(e => next(e));
 }
 
@@ -80,4 +93,4 @@ function remove(req, res, next) {
     .catch(e => next(e));
 }
 
-module.exports = { load, get, create, update, list, remove };
+module.exports = { load, get, create, validateUser, update, list, remove };
