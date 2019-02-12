@@ -35,6 +35,7 @@ function createUserInKit(user) {
       let ostUserData = Object.assign({}, apiResponse.data.user);
       //Set app_user_id & user_pin_salt
       ostUserData.app_user_id = user._id;
+      ostUserData.user_id = ostUserData.id;
       ostUserData.user_pin_salt = bip39.generateMnemonic();
 
       //Temp Code. To be removed - bug in API
