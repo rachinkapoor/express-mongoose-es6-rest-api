@@ -38,9 +38,6 @@ function createUserInKit(user) {
       ostUserData.user_id = ostUserData.id;
       ostUserData.user_pin_salt = bip39.generateMnemonic();
 
-      //Temp Code. To be removed - bug in API
-      ostUserData.user_id = ostUserData.user_id || ostUserData.userId;
-
       //Create new OstUser.
       let ostUser = new OstUser(ostUserData);
       let savedOstUser;
