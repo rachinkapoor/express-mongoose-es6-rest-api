@@ -4,7 +4,7 @@
 
 "@ostdotcom/ost-sdk-js@https://github.com/OpenSTFoundation/ost-sdk-js.git#v2":
   version "1.1.0"
-  resolved "https://github.com/OpenSTFoundation/ost-sdk-js.git#cc2b7a55e4499645c1a823fb5548478029181cab"
+  resolved "https://github.com/OpenSTFoundation/ost-sdk-js.git#8438d3406bd30b56301215cba3345ffe8327e7c4"
   dependencies:
     qs "6.6.0"
 
