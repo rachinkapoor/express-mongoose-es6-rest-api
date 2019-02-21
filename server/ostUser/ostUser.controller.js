@@ -81,7 +81,13 @@ function update(req, res, next) {
             ostUser.device_manager_address = apiUser.device_manager_address;
             ostUser.status = apiUser.status;
             ostUser.updated_timestamp = apiUser.updated_timestamp;
-            return ostUser.save().then(savedUser => res.json(savedUser));
+            return ostUser.save().then(savedOstUser => {
+              ostUser = savedOstUser;
+              user.token_holder_address = ostUser.token_holder_address;
+              return user.save().then(() => {
+                res.json(ostUser);
+              });
+            });
           } else {
             let err;
             if (apiResponse.err) {
