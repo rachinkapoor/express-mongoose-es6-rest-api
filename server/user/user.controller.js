@@ -80,11 +80,12 @@ function update(req, res, next) {
  * Get user list.
  * @property {number} req.query.skip - Number of users to be skipped.
  * @property {number} req.query.limit - Limit number of users to be returned.
+ * @property {string} req.query.th - Filter by token holder addresses.
  * @returns {User[]}
  */
 function list(req, res, next) {
-  const { limit = 50, skip = 0 } = req.query;
-  User.list({ limit, skip })
+  const { limit = 50, skip = 0, th = "" } = req.query;
+  User.list({ limit, skip, th })
     .then(users => {
       return res.json({
         success: true,
