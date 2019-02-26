@@ -35,7 +35,7 @@ describe("## OstUser APIs", () => {
       .send(user)
       .expect(httpStatus.OK)
       .then(res => {
-        expect(res.body.username).to.equal(user.username);
+        expect(res.body.user_display_name).to.equal(user.username);
         expect(res.body.mobile_number).to.equal(user.mobile_number);
         user = res.body;
         done();
