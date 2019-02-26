@@ -19,9 +19,11 @@ function get(req, res, next) {
  */
 function create(req, res, next) {
   const user = req.user;
-  OstUser.getByAppUserId(user._id)
-    .then(savedOstUser => res.json(savedOstUser))
-    .catch(() => {
+  return OstUser.getByAppUserId(user._id)
+    .then(savedOstUser => {
+      res.json(savedOstUser);
+    })
+    .catch(e => {
       return createUserInKit(user);
     })
     .then(savedOstUser => res.json(savedOstUser))
@@ -30,36 +32,52 @@ function create(req, res, next) {
 
 function createUserInKit(user) {
   //Make Kit Api Call.
-  return ostSdk.services.users.create().then(apiResponse => {
-    if (apiResponse.success && apiResponse.data.user) {
-      let ostUserData = Object.assign({}, apiResponse.data.user);
-      //Set app_user_id & user_pin_salt
-      ostUserData.app_user_id = user._id;
-      ostUserData.user_id = ostUserData.id;
-      ostUserData.user_pin_salt = bip39.generateMnemonic();
+  let createPromise;
+  try {
+    createPromise = ostSdk.services.users.create();
+  } catch (e) {
+    console.error("SDK Error in ostSdk.services.users.create");
+    console.error(e);
+    return Promise.reject(e);
+  }
 
-      //Create new OstUser.
-      let ostUser = new OstUser(ostUserData);
-      let savedOstUser;
-      return ostUser.save().then(ostUserData => {
-        savedOstUser = ostUserData;
-        user.ost_user_id = savedOstUser.user_id;
-        user.ost_user_internal_id = savedOstUser._id;
-        console.log("\n\n\n", "User", user, "\n\n\n");
-        return user.save().then(savedUser => {
-          return savedOstUser;
+  return createPromise
+    .then(apiResponse => {
+      if (apiResponse.success && apiResponse.data.user) {
+        let ostUserData = Object.assign({}, apiResponse.data.user);
+        //Set app_user_id & user_pin_salt
+        ostUserData.app_user_id = user._id;
+        ostUserData.user_id = ostUserData.id;
+        ostUserData.user_pin_salt = bip39.generateMnemonic();
+
+        //Create new OstUser.
+        let ostUser = new OstUser(ostUserData);
+        let savedOstUser;
+        return ostUser.save().then(ostUserData => {
+          savedOstUser = ostUserData;
+          user.ost_user_id = savedOstUser.user_id;
+          user.ost_user_internal_id = savedOstUser._id;
+          return user.save().then(savedUser => {
+            return savedOstUser;
+          });
         });
-      });
-    } else {
-      let err;
-      if (apiResponse.err) {
-        err = new Error(JSON.stringify(apiResponse.err));
       } else {
-        err = new Error(JSON.stringify(apiResponse));
+        let err;
+        if (apiResponse.err) {
+          err = new Error(JSON.stringify(apiResponse.err));
+        } else {
+          err = new Error(JSON.stringify(apiResponse));
+        }
+        return Promise.reject(e);
       }
-      throw err;
-    }
-  });
+    })
+    .catch(e => {
+      console.error(
+        "\n\n\nGot exception executing ostSdk.services.users.create"
+      );
+      console.error(e);
+      return Promise.reject(e);
+    });
 }
 
 /**
@@ -68,7 +86,7 @@ function createUserInKit(user) {
  */
 function update(req, res, next) {
   const user = req.user;
-  OstUser.getByAppUserId(user._id)
+  return OstUser.getByAppUserId(user._id)
     .then(ostUser => {
       //Make Kit Api Call.
       ostSdk.services.users

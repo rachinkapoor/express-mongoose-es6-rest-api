@@ -31,7 +31,6 @@ function get(req, res) {
 function create(req, res, next) {
   const appUser = req.user;
   if (!appUser.ost_user_id) {
-    console.log("appUser", appUser);
     let err = new Error("This user does not have an associated Ost User.");
     return next(err);
   }

@@ -1,5 +1,5 @@
 const User = require("./user.model");
-
+const ostUserCntrl = require("../ostUser/ostUser.controller");
 /**
  * Load user and append to req.
  */
@@ -39,7 +39,6 @@ function create(req, res, next) {
     .then(savedUser => {
       if (req.body.create_ost_user) {
         req.user = savedUser;
-        const ostUserCntrl = require("../ostUser/ostUser.controller");
         return ostUserCntrl.create(req, res, next);
       } else {
         return res.json(savedUser);
