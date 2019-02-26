@@ -39,7 +39,7 @@ describe("## User APIs", () => {
         .expect(httpStatus.OK)
         .then(res => {
           console.info("res", res.body);
-          expect(res.body.username).to.equal(user.username);
+          expect(res.body.user_display_name).to.equal(user.username);
           expect(res.body.mobile_number).to.equal(user.mobile_number);
           expect(res.body.description).to.equal(user.description);
           user = res.body;
@@ -61,12 +61,16 @@ describe("## User APIs", () => {
         .then(res => {
           console.info("res", res.body);
           expect(res.body.username).to.equal(user.username);
+          expect(res.body.user_display_name).to.equal(user.user_display_name);
           expect(res.body.mobile_number).to.equal(user.mobile_number);
           expect(res.body.description).to.equal(user.description);
           user = res.body;
           done();
         })
-        .catch(done);
+        .catch(done)
+        .then(() => {
+          console.log("\n\n\n\n\n");
+        });
     });
 
     it("should report error with message - Not found, when username is invalid", done => {
@@ -92,6 +96,7 @@ describe("## User APIs", () => {
         .expect(httpStatus.OK)
         .then(res => {
           expect(res.body.username).to.equal(user.username);
+          expect(res.body.user_display_name).to.equal(user.user_display_name);
           expect(res.body.mobile_number).to.equal(user.mobile_number);
           expect(res.body.description).to.equal(user.description);
           done();
@@ -121,6 +126,7 @@ describe("## User APIs", () => {
         .expect(httpStatus.OK)
         .then(res => {
           expect(res.body.username).to.equal(user.username);
+          expect(res.body.user_display_name).to.equal(user.user_display_name);
           expect(res.body.mobile_number).to.equal(user.mobile_number);
           expect(res.body.description).to.equal(user.description);
           done();
@@ -161,6 +167,7 @@ describe("## User APIs", () => {
         .expect(httpStatus.OK)
         .then(res => {
           expect(res.body.username).to.equal(user.username);
+          expect(res.body.user_display_name).to.equal(user.user_display_name);
           expect(res.body.mobile_number).to.equal(user.mobile_number);
           expect(res.body.description).to.equal(user.description);
           done();

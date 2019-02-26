@@ -11,6 +11,10 @@ const UserSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
+  user_display_name: {
+    type: String,
+    required: true
+  },
   mobile_number: {
     type: String,
     required: true,

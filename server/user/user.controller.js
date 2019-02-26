@@ -28,8 +28,13 @@ function get(req, res) {
  * @returns {User}
  */
 function create(req, res, next) {
+  let userName = req.body.username;
+  userDisplayName = userName.replace(/\s/g, "");
+  userName = userDisplayName.toLowerCase();
+
   const user = new User({
-    username: req.body.username,
+    username: userName,
+    user_display_name: userDisplayName,
     mobile_number: req.body.mobile_number,
     description: req.body.description || ""
   });
@@ -55,7 +60,11 @@ function create(req, res, next) {
  */
 
 function validateUser(req, res, next) {
-  User.getByUsernameAndMobileNumber(req.body.username, req.body.mobile_number)
+  let userName = req.body.username;
+  userName = userName.replace(/\s/g, "");
+  userName = userName.toLowerCase();
+
+  User.getByUsernameAndMobileNumber(userName, req.body.mobile_number)
     .then(user => res.json(user))
     .catch(e => next(e));
 }
