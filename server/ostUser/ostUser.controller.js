@@ -85,13 +85,25 @@ function createUserInKit(user) {
  * @returns {User}
  */
 function update(req, res, next) {
+  console.log("\n\n\n|||");
+  console.log("Inside OstUser.update");
   const user = req.user;
+
+  console.log("\n\n\n|||");
+  console.log("OstUser.update: user : ", user);
+
   return OstUser.getByAppUserId(user._id)
     .then(ostUser => {
+      console.log("\n\n\n|||");
+      console.log("Got getByAppUserId:", ostUser);
+
       //Make Kit Api Call.
       ostSdk.services.users
         .get({ id: ostUser.user_id })
         .then(apiResponse => {
+          console.log("\n\n\n|||");
+          console.log("Got api apiResponse:", JSON.stringify(apiResponse));
+
           if (apiResponse.success && apiResponse.data.user) {
             const apiUser = apiResponse.data.user;
             //Update the ostUser.
@@ -101,6 +113,9 @@ function update(req, res, next) {
             ostUser.updated_timestamp = apiUser.updated_timestamp;
             return ostUser.save().then(savedOstUser => {
               ostUser = savedOstUser;
+              console.log("\n\n\n|||");
+              console.log("Got api call and we savedOstUser:", savedOstUser);
+
               user.token_holder_address = ostUser.token_holder_address;
               return user.save().then(() => {
                 res.json(ostUser);

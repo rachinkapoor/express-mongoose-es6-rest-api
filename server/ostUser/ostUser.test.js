@@ -29,7 +29,8 @@ describe("## OstUser APIs", () => {
   };
   let ostUser;
 
-  before(done => {
+  before(function(done) {
+    this.timeout(5000);
     request(app)
       .post("/api/users")
       .send(user)
@@ -44,7 +45,8 @@ describe("## OstUser APIs", () => {
   });
 
   describe("# POST /api/users/:userId/ost-users", () => {
-    it("should create a new ost user", done => {
+    it("should create a new ost user", function(done) {
+      this.timeout(5000);
       request(app)
         .post(`/api/users/${user._id}/ost-users`)
         .expect(httpStatus.OK)

@@ -50,7 +50,8 @@ describe("## User APIs", () => {
   });
 
   describe("# POST /api/users/validate", () => {
-    it("should validate existing user", done => {
+    it("should validate existing user", function(done) {
+      this.timeout(5000);
       request(app)
         .post("/api/users/validate")
         .send({
@@ -60,11 +61,7 @@ describe("## User APIs", () => {
         .expect(httpStatus.OK)
         .then(res => {
           console.info("res", res.body);
-          expect(res.body.username).to.equal(user.username);
-          expect(res.body.user_display_name).to.equal(user.user_display_name);
-          expect(res.body.mobile_number).to.equal(user.mobile_number);
-          expect(res.body.description).to.equal(user.description);
-          user = res.body;
+          expect(res.body.app_user_id).to.equal(user._id);
           done();
         })
         .catch(done)

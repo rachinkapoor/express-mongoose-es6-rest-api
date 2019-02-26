@@ -65,7 +65,17 @@ function validateUser(req, res, next) {
   userName = userName.toLowerCase();
 
   User.getByUsernameAndMobileNumber(userName, req.body.mobile_number)
-    .then(user => res.json(user))
+    .then(user => {
+      req.user = user;
+      if (user.ost_user_id != null && user.token_holder_address == null) {
+        return ostUserCntrl.update(req, res, next);
+      } else if (user.ost_user_id != null) {
+        return ostUserCntrl.get(req, res, next);
+      } else {
+        //Just create the ost-user.
+        return ostUserCntrl.create(req, res, next);
+      }
+    })
     .catch(e => next(e));
 }
 
