@@ -111,7 +111,7 @@ UserSchema.statics = {
       findQ = this.find();
     }
     return findQ
-      .sort({ createdAt: -1 })
+      .sort({ created_at: -1 })
       .skip(+skip)
       .limit(+limit)
       .exec();
