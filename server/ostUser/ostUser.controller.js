@@ -99,7 +99,7 @@ function update(req, res, next) {
 
       //Make Kit Api Call.
       ostSdk.services.users
-        .get({ id: ostUser.user_id })
+        .get({ user_id: ostUser.user_id })
         .then(apiResponse => {
           console.log("\n\n\n|||");
           console.log("Got api apiResponse:", JSON.stringify(apiResponse));
