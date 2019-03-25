@@ -24,13 +24,6 @@ const UserDeviceSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  device_name: {
-    type: String,
-    required: true
-  },
-  device_uuid: {
-    type: String
-  },
   status: {
     type: String,
     required: true

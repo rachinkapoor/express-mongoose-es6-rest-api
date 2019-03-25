@@ -38,9 +38,7 @@ function create(req, res, next) {
   let deivceData = {
     user_id: appUser.ost_user_id,
     address: req.body.address,
-    api_signer_address: req.body.api_signer_address,
-    device_name: req.body.device_name,
-    device_uuid: req.body.device_uuid
+    api_signer_address: req.body.api_signer_address
   };
 
   //Check if already exists

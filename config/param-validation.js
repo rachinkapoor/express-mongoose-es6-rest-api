@@ -48,12 +48,6 @@ module.exports = {
       api_signer_address: Joi.string()
         .min(42)
         .max(42)
-        .required(),
-      device_name: Joi.string()
-        .min(1)
-        .required(),
-      device_uuid: Joi.string()
-        .min(1)
         .required()
     }
   },

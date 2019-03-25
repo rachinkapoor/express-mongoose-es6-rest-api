@@ -43,9 +43,7 @@ describe("## UserDevice APIs", () => {
 
   let device = {
     address: walletAddress,
-    api_signer_address: apiSignerAddress,
-    device_name: "Test-Device - " + String(ts),
-    device_uuid: uuidv4()
+    api_signer_address: apiSignerAddress
   };
 
   let ostUser;
