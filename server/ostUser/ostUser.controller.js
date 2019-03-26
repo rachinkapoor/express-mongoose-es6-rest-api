@@ -92,13 +92,21 @@ function update(req, res, next) {
 
   // console.log("\n\n\n|||");
   // console.log("OstUser.update: user : ", user);
-
+  // console.log("---------------OstUser.update----------------");
+  // console.log("user", JSON.stringify(user));
+  if (!user) {
+    console.trace();
+  }
   return OstUser.getByAppUserId(user._id)
     .then(ostUser => {
       //Make Kit Api Call.
+      // console.log("---------------OstUser.update: getByAppUserId----------------");
+      // console.log("ostUser", "ostUser.user_id:", ostUser.user_id, "json:\n", JSON.stringify(ostUser));
+      // console.log("--------------------------------");
       ostSdk.services.users
-        .get({ id: ostUser.user_id })
+        .get({ user_id: ostUser.user_id })
         .then(apiResponse => {
+          // console.log("---------------OstUser.update: getByAppUserId services.users ----------------");
           if (apiResponse.success && apiResponse.data.user) {
             const apiUser = apiResponse.data.user;
             //Update the ostUser.
@@ -106,12 +114,14 @@ function update(req, res, next) {
             ostUser.device_manager_address = apiUser.device_manager_address;
             ostUser.status = apiUser.status;
             ostUser.updated_timestamp = apiUser.updated_timestamp;
-
+            // console.log("---------------OstUser.update: getByAppUserId services.users OstUser.pre-save ----------------");
             return ostUser.save().then(savedOstUser => {
               ostUser = savedOstUser;
-
+              // console.log("---------------OstUser.update: getByAppUserId services.users OstUser.post-save ----------------");
               user.token_holder_address = ostUser.token_holder_address;
+              // console.log("---------------OstUser.update: getByAppUserId services.users User.pre-save ----------------");
               return user.save().then(() => {
+                // console.log("---------------OstUser.update: getByAppUserId services.users User.post-save ----------------");
                 res.json(ostUser);
               });
             });
