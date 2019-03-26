@@ -99,12 +99,18 @@ UserSchema.statics = {
    * @param {number} limit - Limit number of users to be returned.
    * @returns {Promise<User[]>}
    */
-  list({ skip = 0, limit = 50, th = "" } = {}) {
+  list({ skip = 0, limit = 50, th = "", un = "" } = {}) {
     let findQ;
     if (th) {
       findQ = this.find({
         token_holder_address: {
           $in: th
+        }
+      });
+    } else if (un) {
+      findQ = this.find({
+        username: {
+          $regex: un + "[a-z]*"
         }
       });
     } else {
